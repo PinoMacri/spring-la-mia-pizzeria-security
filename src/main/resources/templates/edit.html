@@ -6,7 +6,7 @@
 </head>
 <body th:object="${pizza}">
 	<h1>Modifica Pizza</h1>
-	<form method="POST" th:action="@{/pizze/update/{id}(id=${pizza.id})}">
+	<form method="POST" th:action="@{/admin/pizze/update/{id}(id=${pizza.id})}">
 		<label>nome</label> <input type="text" name="nome" th:value="*{nome}">
 		<label style="color: red"
 			th:if="${errors != null && errors.hasFieldErrors('nome')}">

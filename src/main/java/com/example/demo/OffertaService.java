@@ -21,4 +21,8 @@ public class OffertaService {
 	public Optional<Offerta> getOfferteByPizzaId(int id) {
 	    return offertaRepository.findById(id);
 	}
+	
+	public void delete(Offerta offerta) {
+		offertaRepository.delete(offerta);
+	}
 }

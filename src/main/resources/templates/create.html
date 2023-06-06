@@ -6,7 +6,8 @@
 </head>
 <body th:object="${pizza}">
 	<h1>Crea Pizza</h1>
-	<form method="POST" action="/pizze/store">
+		<form method="POST" th:action="@{/admin/pizze/store}">
+
 		<label>nome</label> <input type="text" name="nome" th:value="*{nome}">
 		<label style="color: red"
 			th:if="${errors != null && errors.hasFieldErrors('nome')}">
@@ -23,16 +24,17 @@
 		<input type="number" name="prezzo" th:value="*{prezzo}"> <label
 			style="color: red"
 			th:if="${errors != null && errors.hasFieldErrors('prezzo')}">
-			[[${errors.getFieldError('prezzo').getDefaultMessage}]] </label> <br> <input
-			type="submit" value="CREATE">
+			[[${errors.getFieldError('prezzo').getDefaultMessage}]] </label> <br>
 
 		<div th:each="ingrediente : ${ingredienti}" th:object="${ingredienti}">
 			<input th:id="${'ingrediente' + ingrediente.id}"
-				th:value="${ingrediente.id}" type="checkbox" name="ingredientiSelezionati"> 
-			<label th:for="${'ingrediente' + ingrediente.id}" th:text="${ingrediente.nome}"></label>
+				th:value="${ingrediente.id}" type="checkbox"
+				name="ingredientiSelezionati"> <label
+				th:for="${'ingrediente' + ingrediente.id}"
+				th:text="${ingrediente.nome}"></label>
 
 		</div>
-
+		<input type="submit" value="CREATE">
 	</form>
 </body>
 </html>

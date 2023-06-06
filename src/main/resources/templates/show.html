@@ -10,7 +10,7 @@
 <body>
 	<div th:object="${pizza}">
 		<h1>[[*{id}]] - [[*{nome}]] - [[*{descrizione}]] - [[*{prezzo}]]</h1>
-		<a href="/pizze">Torna alle pizze</a>
+		<a href="/users/pizze">Torna alle pizze</a>
 		<h2>Offerte:</h2>
 		<div th:if="${pizza.offerte.empty}">
 			<p>Questa pizza non ha offerte.</p>
@@ -22,13 +22,13 @@
 				<p>Data inizio: [[${offerta.dataInizio}]]</p>
 				<p>Data fine: [[${offerta.dataFine}]]</p>
 				<p>Percentuale sconto: [[${offerta.percentualeSconto}]]</p> <a
-				th:href="@{/pizze/{pizzaId}/offerte/{offertaId}/edit(pizzaId=${pizza.id}, offertaId=${offerta.id})}">Modifica
+				th:href="@{/admin/pizze/{pizzaId}/offerte/{offertaId}/edit(pizzaId=${pizza.id}, offertaId=${offerta.id})}">Modifica
 					Offerta</a>
+			    <a th:href="@{/admin/offerta/delete/{id} (id=${offerta.id})}">Cancella Offerta</a>
 			</li>
 		</ul>
-		<a href="/pizze/{pizzaId}/offerte/new"
-			th:href="@{'/pizze/' + ${pizza.id} + '/offerte/new'}">Aggiungi
-			Offerta</a>
+	<a href="/admin/pizze/{pizzaId}/offerte/new" th:href="@{'/admin/pizze/' + ${pizza.id} + '/offerte/new'}">Aggiungi Offerta</a>
+
 			
 				<h2>Ingredienti:</h2>
 		<ul>

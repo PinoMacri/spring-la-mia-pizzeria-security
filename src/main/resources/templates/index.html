@@ -7,11 +7,11 @@
 <body>
 
 <h1>Pizze</h1>
-<a th:href="@{/ingredienti}">Ingredienti Pizze</a>
+<a th:href="@{/users/ingredienti}">Ingredienti Pizze</a>
 	<br>
-<a th:href="@{/pizze/create}">Crea nuova Pizza</a>
+<a th:href="@{/admin/pizze/create}">Crea nuova Pizza</a>
 
-<form action="/pizze/nome" method="POST">
+<form th:action="@{/users/pizze/nome}" method="post">
 <label>Nome Pizza</label>
 <input type="text" name="nome" th:value=${nome}>
 <br>
@@ -22,12 +22,14 @@
 
 <ul th:if="${not #lists.isEmpty(pizze)}">
     <li th:each="pizza : ${pizze}" th:object="${pizza}">
-       <a th:href="@{/pizze/{id}(id=${pizza.id})}" th:text="${pizza.nome}"></a>
-       <a th:href="@{/pizze/delete/{id} (id=${pizza.id})}">Cancella</a>
-       <a th:href="@{/pizze/edit/{id} (id=${pizza.id})}">Modifica</a>
+       <a th:href="@{/users/pizze/{id}(id=${pizza.id})}" th:text="${pizza.nome}"></a>
+       <a th:href="@{/admin/pizze/delete/{id} (id=${pizza.id})}">Cancella</a>
+       <a th:href="@{/admin/pizze/edit/{id} (id=${pizza.id})}">Modifica</a>
     </li>
 </ul>
 <p th:unless="${not #lists.isEmpty(pizze)}" th:text="${message}"></p>
+
+<a href="/logout">Logout</a>
 
 
 </body>

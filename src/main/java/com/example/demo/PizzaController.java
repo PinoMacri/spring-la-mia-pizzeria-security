@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
 
@@ -68,7 +69,9 @@ public class PizzaController {
 		List<Pizza> pizze = pizzaService.findByNome(nome);
 		model.addAttribute("pizze", pizze);
 		model.addAttribute("nome", nome);
+		System.out.println(nome);
 		return "index";
+
 	}
 
 	@GetMapping("/admin/pizze/create")
@@ -82,7 +85,7 @@ public class PizzaController {
 
 	@PostMapping("/admin/pizze/store")
 	public String store(Model model, @Valid @ModelAttribute Pizza pizza, BindingResult bindingResult,
-			@RequestParam("ingredientiSelezionati") List<Integer> ingredientiSelezionati) {
+	        @RequestParam(value = "ingredientiSelezionati", required = false) List<Integer> ingredientiSelezionati) {
 		if (bindingResult.hasErrors()) {
 			for (ObjectError err : bindingResult.getAllErrors()) {
 				System.err.println("errore: " + err.getDefaultMessage());
@@ -92,14 +95,8 @@ public class PizzaController {
 			return "create";
 		}
 
-		// Recupera gli oggetti Ingrediente corrispondenti agli ID selezionati
-		List<Ingrediente> ingredienti = ingredienteService.findByIds(ingredientiSelezionati);
-
-		// Imposta gli ingredienti selezionati nella pizza
-		pizza.setIngredienti(ingredienti);
-
 		pizzaService.save(pizza);
-		return "redirect:/pizze";
+		 return "redirect:/users/pizze";
 	}
 
 	@GetMapping("/admin/pizze/edit/{id}")
@@ -129,7 +126,7 @@ public class PizzaController {
 
 	    Pizza existingPizza = getPizzaById(id);
 	    if (existingPizza == null) {
-	        return "redirect:/pizze";
+	        return "redirect:/users/pizze";
 	    }
 
 	    existingPizza.setNome(pizza.getNome());
@@ -146,7 +143,7 @@ public class PizzaController {
 	    }
 
 	    pizzaService.save(existingPizza);
-	    return "redirect:/pizze";
+	    return "redirect:/users/pizze";
 	}
 
 
@@ -155,7 +152,7 @@ public class PizzaController {
 		Optional<Pizza> pizzaOpt = pizzaService.findById(id);
 		Pizza pizza = pizzaOpt.get();
 		pizzaService.delete(pizza);
-		return "redirect:/pizze";
+		return "redirect:/users/pizze";
 	}
 
 	@GetMapping("/admin/pizze/{pizzaId}/offerte/new")
@@ -170,7 +167,7 @@ public class PizzaController {
 			return "create-offerta";
 		} else {
 
-			return "redirect:/pizze";
+			return "redirect:/users/pizze";
 		}
 	}
 
@@ -182,10 +179,10 @@ public class PizzaController {
 			Pizza pizza = pizzaOptional.get();
 			offerta.setPizza(pizza);
 			offertaService.save(offerta);
-			return "redirect:/pizze/{pizzaId}";
+			return "redirect:/users/pizze/{pizzaId}";
 		} else {
 
-			return "redirect:/pizze";
+			return "/users/redirect:/pizze";
 		}
 	}
 
@@ -225,7 +222,21 @@ public class PizzaController {
 		} else {
 			throw new IllegalArgumentException("Pizza non trovata");
 		}
-		return "redirect:/pizze/{pizzaId}";
+		return "redirect:/users/pizze/{pizzaId}";
+	}
+	@GetMapping("/admin/offerta/delete/{id}")
+	public String deleteOfferta(@PathVariable int id, RedirectAttributes redirectAttributes) {
+	    Optional<Offerta> offertaOpt = offertaService.findById(id);
+	    Offerta offerta = offertaOpt.get();
+	    offertaService.delete(offerta);
+	    
+	    // Recupera il valore corretto di pizzaId
+	    int pizzaId = offerta.getPizza().getId();
+	    
+	    // Passa il valore di pizzaId come parametro nel reindirizzamento
+	    redirectAttributes.addAttribute("pizzaId", pizzaId);
+
+	    return "redirect:/users/pizze/{pizzaId}";
 	}
 
 }

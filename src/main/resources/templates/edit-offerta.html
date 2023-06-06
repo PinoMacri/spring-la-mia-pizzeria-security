@@ -6,13 +6,14 @@
 </head>
 <body>
   <h1>Modifica Offerta</h1>
-  <form th:action="@{/pizze/{pizzaId}/offerte/{offertaId}/edit(pizzaId=${offerta.pizza.id}, offertaId=${offerta.id})}" th:object="${offerta}" method="post">
+  <form th:action="@{/admin/pizze/{pizzaId}/offerte/{offertaId}/edit(pizzaId=${offerta.pizza.id}, offertaId=${offerta.id})}" th:object="${offerta}" method="POST">
+  
     <label>Data Inizio: <input type="date" th:field="*{dataInizio}" /></label><br>
     <label>Data Fine: <input type="date" th:field="*{dataFine}" /></label><br>
     <label>Titolo: <input type="text" th:field="*{titolo}" /></label><br>
     <label>Percentuale Sconto: <input type="number" th:field="*{percentualeSconto}" /></label><br>
     <input type="submit" value="Salva" />
   </form>
-  <a href="/pizze/{pizzaId}">Torna alla pizza</a>
+  <a href="users/pizze/{pizzaId}">Torna alla pizza</a>
 </body>
 </html>

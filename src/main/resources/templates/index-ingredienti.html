@@ -6,11 +6,11 @@
 </head>
 <body>
 	<h1>Ingredienti</h1>
-	<a th:href="@{/ingrediente/create}">Crea nuovo Ingrediente</a>
+	<a th:href="@{/admin/ingrediente/create}">Crea nuovo Ingrediente</a>
 <ul th:if="${not #lists.isEmpty(ingredienti)}">
     <li th:each="ingrediente : ${ingredienti}" th:object="${ingrediente}">
         <p th:text="${ingrediente.nome}"></p>
-        <a th:href="@{/ingrediente/delete/{id} (id=${ingrediente.id})}">Cancella</a>
+        <a th:href="@{/admin/ingrediente/delete/{id} (id=${ingrediente.id})}">Cancella</a>
     </li>
 </ul>
 <p th:unless="${not #lists.isEmpty(ingredienti)}" th:text="${message}"></p>

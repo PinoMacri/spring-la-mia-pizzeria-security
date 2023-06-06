@@ -52,17 +52,28 @@ public class PizzeriaApplication implements CommandLineRunner {
           offertaService.save(o3);
           offertaService.save(o4); 
           */
-    	Role roleUser = new Role ("USER");
-    	Role roleAdmin = new Role ("ADMIN");
-    	roleService.save(roleAdmin);
-    	roleService.save(roleUser);
-    	
-    	final String password = new BCryptPasswordEncoder().encode("password");
-    	User userUser = new User ("user", password, roleUser);
-    	User userAdmin = new User ("admin", password, roleAdmin);
-    	
-    	userService.save(userUser);
-    	userService.save(userAdmin);
+    	if (roleService.findByName("ADMIN") == null) {
+    	    Role roleAdmin = new Role("ADMIN");
+    	    roleService.save(roleAdmin);
+    	}
+
+    	if (roleService.findByName("USER") == null) {
+    	    Role roleUser = new Role("USER");
+    	    roleService.save(roleUser);
+    	}
+
+    	if (userService.findByUsername("admin") == null) {
+    	    final String password = new BCryptPasswordEncoder().encode("password");
+    	    User userAdmin = new User("admin", password, roleService.findByName("ADMIN"));
+    	    userService.save(userAdmin);
+    	}
+
+    	if (userService.findByUsername("user") == null) {
+    	    final String password = new BCryptPasswordEncoder().encode("password");
+    	    User userUser = new User("user", password, roleService.findByName("USER"));
+    	    userService.save(userUser);
+    	}
+
     } 
 
 }

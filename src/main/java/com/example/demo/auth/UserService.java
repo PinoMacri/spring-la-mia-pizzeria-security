@@ -33,4 +33,9 @@ public class UserService implements UserDetailsService {
 			throw new UsernameNotFoundException("Username not found");
 		return userOpt.get();
 	}
+	public Optional<User> findByUsername(String name) {
+        return userRepo.findByUsername(name);
+    }
+	
+
 }
