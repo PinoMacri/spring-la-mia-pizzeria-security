@@ -1,11 +1,14 @@
 package com.example.demo;
 
-import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.example.demo.auth.Role;
+import com.example.demo.auth.User;
+import com.example.demo.auth.UserService;
 
 @SpringBootApplication
 public class PizzeriaApplication implements CommandLineRunner {
@@ -13,9 +16,13 @@ public class PizzeriaApplication implements CommandLineRunner {
     @Autowired
     private PizzaService pizzaService;
     @Autowired
+    private UserService userService;
+    @Autowired
     private OffertaService offertaService;
     @Autowired
     private IngredienteService ingredienteService;
+    @Autowired
+    private RoleService roleService;
     
     public static void main(String[] args) {
         SpringApplication.run(PizzeriaApplication.class, args);
@@ -45,6 +52,17 @@ public class PizzeriaApplication implements CommandLineRunner {
           offertaService.save(o3);
           offertaService.save(o4); 
           */
+    	Role roleUser = new Role ("USER");
+    	Role roleAdmin = new Role ("ADMIN");
+    	roleService.save(roleAdmin);
+    	roleService.save(roleUser);
+    	
+    	final String password = new BCryptPasswordEncoder().encode("password");
+    	User userUser = new User ("user", password, roleUser);
+    	User userAdmin = new User ("admin", password, roleAdmin);
+    	
+    	userService.save(userUser);
+    	userService.save(userAdmin);
     } 
 
 }

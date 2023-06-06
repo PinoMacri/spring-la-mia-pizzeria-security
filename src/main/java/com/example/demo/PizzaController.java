@@ -25,12 +25,12 @@ public class PizzaController {
 	@Autowired
 	private IngredienteService ingredienteService;
 
-	@GetMapping("/")
+	/* @GetMapping("/")
 	public String home(Model model) {
 		return "home";
-	}
+	} */
 
-	@GetMapping("/pizze")
+	@GetMapping("/users/pizze")
 	public String index(Model model) {
 		Optional<List<Pizza>> optionalPizze = Optional.of(pizzaService.findAll());
 
@@ -43,7 +43,7 @@ public class PizzaController {
 		return "index";
 	}
 
-	@GetMapping("/pizze/{id}")
+	@GetMapping("/users/pizze/{id}")
 	public String getPizza(Model model, @PathVariable("id") int id) {
 		Pizza pizza = getPizzaById(id);
 		Optional<Offerta> offerte = offertaService.getOfferteByPizzaId(id);
@@ -63,7 +63,7 @@ public class PizzaController {
 		return singolaPizza;
 	}
 
-	@PostMapping("/pizze/nome")
+	@PostMapping("/users/pizze/nome")
 	public String getPizzaNome(@RequestParam(required = false) String nome, Model model) {
 		List<Pizza> pizze = pizzaService.findByNome(nome);
 		model.addAttribute("pizze", pizze);
@@ -71,7 +71,7 @@ public class PizzaController {
 		return "index";
 	}
 
-	@GetMapping("pizze/create")
+	@GetMapping("/admin/pizze/create")
 	public String create(Model model) {
 		List<Ingrediente> ingredienti = ingredienteService.findAll();
 		model.addAttribute("pizza", new Pizza());
@@ -80,7 +80,7 @@ public class PizzaController {
 		return "create";
 	}
 
-	@PostMapping("/pizze/store")
+	@PostMapping("/admin/pizze/store")
 	public String store(Model model, @Valid @ModelAttribute Pizza pizza, BindingResult bindingResult,
 			@RequestParam("ingredientiSelezionati") List<Integer> ingredientiSelezionati) {
 		if (bindingResult.hasErrors()) {
@@ -102,7 +102,7 @@ public class PizzaController {
 		return "redirect:/pizze";
 	}
 
-	@GetMapping("/pizze/edit/{id}")
+	@GetMapping("/admin/pizze/edit/{id}")
 	public String edit(Model model, @PathVariable int id) {
 		Optional<Pizza> pizzaOpt = pizzaService.findById(id);
 		List<Ingrediente> ingredienti = ingredienteService.findAll();
@@ -112,7 +112,7 @@ public class PizzaController {
 		return "edit";
 	}
 
-	@PostMapping("/pizze/update/{id}")
+	@PostMapping("/admin/pizze/update/{id}")
 	public String update(
 	        Model model,
 	        @PathVariable int id,
@@ -150,7 +150,7 @@ public class PizzaController {
 	}
 
 
-	@GetMapping("/pizze/delete/{id}")
+	@GetMapping("/admin/pizze/delete/{id}")
 	public String delete(@PathVariable int id) {
 		Optional<Pizza> pizzaOpt = pizzaService.findById(id);
 		Pizza pizza = pizzaOpt.get();
@@ -158,7 +158,7 @@ public class PizzaController {
 		return "redirect:/pizze";
 	}
 
-	@GetMapping("/pizze/{pizzaId}/offerte/new")
+	@GetMapping("/admin/pizze/{pizzaId}/offerte/new")
 	public String showNewOffertaForm(@PathVariable int pizzaId, Model model) {
 		Optional<Pizza> pizzaOptional = pizzaService.findById(pizzaId);
 
@@ -174,7 +174,7 @@ public class PizzaController {
 		}
 	}
 
-	@PostMapping("/pizze/{pizzaId}/offerte/new")
+	@PostMapping("/admin/pizze/{pizzaId}/offerte/new")
 	public String createOfferta(@PathVariable int pizzaId, @ModelAttribute("offerta") Offerta offerta) {
 		Optional<Pizza> pizzaOptional = pizzaService.findById(pizzaId);
 
@@ -189,7 +189,7 @@ public class PizzaController {
 		}
 	}
 
-	@GetMapping("/pizze/{pizzaId}/offerte/{offertaId}/edit")
+	@GetMapping("/admin/pizze/{pizzaId}/offerte/{offertaId}/edit")
 	public String showEditOffertaForm(@PathVariable int pizzaId, @PathVariable int offertaId, Model model) {
 		Optional<Offerta> offertaOptional = offertaService.findById(offertaId);
 		if (offertaOptional.isPresent()) {
@@ -201,7 +201,7 @@ public class PizzaController {
 		return "edit-offerta";
 	}
 
-	@PostMapping("/pizze/{pizzaId}/offerte/{offertaId}/edit")
+	@PostMapping("/admin/pizze/{pizzaId}/offerte/{offertaId}/edit")
 	public String updateOfferta(@PathVariable int pizzaId, @PathVariable int offertaId,
 			@ModelAttribute("offerta") Offerta offerta) {
 		Optional<Pizza> pizzaOptional = pizzaService.findById(pizzaId);

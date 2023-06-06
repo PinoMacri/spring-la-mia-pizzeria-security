@@ -21,7 +21,7 @@ public class IngredienteController {
 	@Autowired
 	private IngredienteService ingredienteService;
 
-	@GetMapping("/ingredienti")
+	@GetMapping("(user/ingredienti")
 	public String index(Model model) {
 		List<Ingrediente> ingredienti = ingredienteService.findAll();
 
@@ -34,13 +34,13 @@ public class IngredienteController {
 		return "index-ingredienti";
 	}
 
-	@GetMapping("ingrediente/create")
+	@GetMapping("/admin/ingrediente/create")
 	public String create(Model model) {
 		model.addAttribute("ingrediente", new Ingrediente());
 		return "create-ingrediente";
 	}
 
-	@PostMapping("/ingrediente/store")
+	@PostMapping("/admin/ingrediente/store")
 	public String store(Model model, @Valid @ModelAttribute Ingrediente ingrediente, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			for (ObjectError err : bindingResult.getAllErrors()) {
@@ -54,7 +54,7 @@ public class IngredienteController {
 		return "redirect:/ingredienti";
 	}
 	
-	@GetMapping("/ingrediente/delete/{id}")
+	@GetMapping("/admin/ingrediente/delete/{id}")
 	public String delete(@PathVariable int id) {
 		Optional<Ingrediente> ingredienteOpt = ingredienteService.findById(id);
 		Ingrediente ingrediente = ingredienteOpt.get();
