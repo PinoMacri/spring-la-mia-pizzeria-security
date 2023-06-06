@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+  <h1>Aggiungi Offerta alla Pizza: [[${pizza.nome}]]</h1>
+<form th:action="@{/pizze/{pizzaId}/offerte/new(pizzaId=${pizza.id})}" th:object="${offerta}" method="post">
+
+    <label>Data Inizio: <input type="date" th:field="*{dataInizio}" /></label><br>
+    <label>Data Fine: <input type="date" th:field="*{dataFine}" /></label><br>
+    <label>Titolo: <input type="text" th:field="*{titolo}" /></label><br>
+    <label>Percentuale Sconto: <input type="number" th:field="*{percentualeSconto}" /></label><br>
+    <input type="submit" value="Aggiungi" />
+  </form>
+  <a href="/pizze">Torna alle pizze</a>
+</body>
+
+</html>

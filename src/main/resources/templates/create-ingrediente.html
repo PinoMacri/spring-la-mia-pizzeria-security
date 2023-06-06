@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<body th:object="${ingrediente}">
+	<h1>Crea Ingrediente</h1>
+	<form method="POST" action="/ingrediente/store">
+		<label>nome</label> <input type="text" name="nome" th:value="*{nome}">
+
+		<label>descrizione</label> <input type="text"
+			name="descrizioneProdotto"
+			th:value="${ingrediente.descrizioneProdotto}">
+			
+			 
+			<input type="submit" value="CREATE">
+	</form>
+</body>
+</html>

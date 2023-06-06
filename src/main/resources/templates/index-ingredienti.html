@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Ingredienti</h1>
+	<a th:href="@{/ingrediente/create}">Crea nuovo Ingrediente</a>
+<ul th:if="${not #lists.isEmpty(ingredienti)}">
+    <li th:each="ingrediente : ${ingredienti}" th:object="${ingrediente}">
+        <p th:text="${ingrediente.nome}"></p>
+        <a th:href="@{/ingrediente/delete/{id} (id=${ingrediente.id})}">Cancella</a>
+    </li>
+</ul>
+<p th:unless="${not #lists.isEmpty(ingredienti)}" th:text="${message}"></p>
+
+</body>
+</html>

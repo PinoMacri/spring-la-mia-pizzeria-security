@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body th:object="${pizza}">
+	<h1>Crea Pizza</h1>
+	<form method="POST" action="/pizze/store">
+		<label>nome</label> <input type="text" name="nome" th:value="*{nome}">
+		<label style="color: red"
+			th:if="${errors != null && errors.hasFieldErrors('nome')}">
+			[[${errors.getFieldError('nome').getDefaultMessage}]] </label> <br> <label>descrizione</label>
+		<input type="text" name="descrizione" th:value="*{descrizione}">
+		<label style="color: red"
+			th:if="${errors != null && errors.hasFieldErrors('descrizione')}">
+			[[${errors.getFieldError('descrizione').getDefaultMessage}]] </label> <br>
+
+		<label>foto</label> <input type="text" name="foto" th:value="*{foto}">
+		<label style="color: red"
+			th:if="${errors != null && errors.hasFieldErrors('foto')}">
+			[[${errors.getFieldError('foto').getDefaultMessage}]] </label> <br> <label>prezzo</label>
+		<input type="number" name="prezzo" th:value="*{prezzo}"> <label
+			style="color: red"
+			th:if="${errors != null && errors.hasFieldErrors('prezzo')}">
+			[[${errors.getFieldError('prezzo').getDefaultMessage}]] </label> <br> <input
+			type="submit" value="CREATE">
+
+		<div th:each="ingrediente : ${ingredienti}" th:object="${ingredienti}">
+			<input th:id="${'ingrediente' + ingrediente.id}"
+				th:value="${ingrediente.id}" type="checkbox" name="ingredientiSelezionati"> 
+			<label th:for="${'ingrediente' + ingrediente.id}" th:text="${ingrediente.nome}"></label>
+
+		</div>
+
+	</form>
+</body>
+</html>
